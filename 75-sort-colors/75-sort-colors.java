@@ -1,23 +1,26 @@
 class Solution {
-   public void sortColors(int[] nums) {
-    if(nums==null||nums.length<2){
-        return;
-    }
- 
-    int[] countArray = new int[3];
-    for(int i=0; i<nums.length; i++){
-        countArray[nums[i]]++;
-    }
- 
-    int j = 0;
-    int k = 0;
-    while(j<=2){
-        if(countArray[j]!=0){
-            nums[k++]=j;
-            countArray[j] = countArray[j]-1;
-        }else{
-            j++;
+    public void sortColors(int[] nums) {
+        int len = nums.length;
+        int zero=0,one=0,two=0;
+        for(int i = 0;i < len; i++){
+            if(nums[i] ==0){
+                zero++;
+                } else if(nums[i]==1){
+                 one++;
+                 }else{
+                two++;
+            }
+        }
+        
+        for(int i=0;i< zero;i++){
+            nums[i] = 0;
+        }
+        for(int i=zero;i<zero+one;i++){
+            nums[i] = 1;
+        }
+        for(int i=zero+one;i<len;i++){
+            nums[i] = 2;
+            
         }
     }
-}
 }
