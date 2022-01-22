@@ -4,7 +4,7 @@ public int searchInsert(int[] nums, int target) {
     int j=nums.length-1;
  
     while(i<=j){
-        int mid = (i+j)/2;
+        int mid = i+(j-i)/2;
  
         if(target > nums[mid]){
             i=mid+1;
