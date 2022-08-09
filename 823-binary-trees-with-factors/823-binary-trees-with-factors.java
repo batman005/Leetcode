@@ -1,42 +1,21 @@
 class Solution {
-    private int MOD = 1000000007;
-    public int numFactoredBinaryTrees(int[] arr) 
-    {
-        int n = arr.length;
-        Arrays.sort(arr);
-        long[] dp = new long[n];
-        dp[0] = 1;
-        int ans = 0;
-        for (int idx = 1; idx < n; idx++)
-        {
-            int target = arr[idx];  //root 
-            //===========================================
-            //EXACTLY SAME AS CONCEPT OF "TWO SUM" PROBLEM
-            
-            int i = 0, j = idx - 1; //two pointers for the "Two product" problem (same as Two Sum)
+    public int numFactoredBinaryTrees(int[] A) {
+        Arrays.sort(A);
+        int len = A.length;
+        long ans = 0;
+        HashMap<Integer, Long> fmap = new HashMap<>();
+        for (int num : A) {
             long ways = 1;
-            while(i <= j)
-            {
-                long prod = (((long)arr[i]) * (arr[j]));
-                if (prod == target) 
-                {
-                    if (i == j) ways += (dp[i] * dp[j]) % MOD;
-                    else ways += ((dp[i] * dp[j]) * 2) % MOD;  
-                    //"*2" becoz 1) arr[i] is left child, arr[j] is right child
-                    //           2) arr[j] is left child, arr[i] is right child
-                    
-                    i++;
-                    j--;
-                }
-                else if (prod < target) i++;
-                else if (prod > target) j--;
+            double lim = Math.sqrt(num);
+            for (int j = 0, fA = A[0]; fA <= lim; fA = A[++j]) {
+                if (num % fA != 0) continue;
+                int fB = num / fA;
+                if (fmap.containsKey(fB))
+                    ways = (ways + fmap.get(fA) * fmap.get(fB) * (fA == fB ? 1 : 2)) % 1000000007;
             }
-            
-            //============================================================
-            dp[idx] = ways;
-            ans  = (int)((ans + dp[idx]) % MOD); //add all the cases
+            fmap.put(num, ways);
+            ans = (ans + ways) % 1000000007;
         }
-        return ans + 1;
-        
+        return (int)ans;
     }
 }
