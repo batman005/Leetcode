@@ -13,14 +13,21 @@
  *     }
  * }
  */
+import java.util.Optional;
+
 public class Solution {
     public boolean isValidBST(TreeNode root) {
-        return isValidBST(root, null, null);
+        return isValidBST(root, Optional.empty(), Optional.empty());
     }
     
-    private boolean isValidBST(TreeNode root, TreeNode min, TreeNode max) {
-        if (root == null) return true;
-        return (min == null || root.val > min.val) && (max == null || root.val < max.val)
-            && isValidBST(root.left, min, root) && isValidBST(root.right, root, max);
+    private boolean isValidBST(TreeNode node, Optional<Integer> min, Optional<Integer> max) {
+        if (node == null) {
+            return true;
+        }
+        if ((min.isPresent() && node.val <= min.get()) || (max.isPresent() && node.val >= max.get())) {
+            return false;
+        }
+        Optional val = Optional.of(node.val);
+        return isValidBST(node.left, min, val) && isValidBST(node.right, val, max);
     }
 }
