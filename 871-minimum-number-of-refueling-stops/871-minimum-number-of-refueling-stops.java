@@ -1,5 +1,6 @@
 class Solution {
     public int minRefuelStops(int target, int startFuel, int[][] stations) {
+        //Max Heap
         int N = stations.length, ans = 0;
         PriorityQueue<Integer> pq = new PriorityQueue<>((a,b) -> b - a);
         for(int i = 0; i <= N; i++){
