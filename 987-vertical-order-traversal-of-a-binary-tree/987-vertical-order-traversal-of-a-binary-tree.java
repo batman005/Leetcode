@@ -14,49 +14,39 @@
  * }
  */
 class Solution {
+
+    Map<Integer, TreeMap<Integer,PriorityQueue<Integer>>> mp;
+	
     public List<List<Integer>> verticalTraversal(TreeNode root) {
-        List<List<Integer>> res = new ArrayList<>();
-        if(root == null) return res;
+        mp = new TreeMap<>();
+        dfs(root,0,0);
         
-        Map<Integer,Map<Integer,List<Integer>>> store = new TreeMap<>();
+        List<List<Integer>> ans = new ArrayList<>();
         
-        solve(store, root,0,0);
-        
-        
-        //Creating the resultant list using the maps structure 
-        // along with sorting of the list of the nodes that have same  row and column
-        for(Integer key : store.keySet()){
-            Map<Integer,List<Integer>> map = store.get(key);
-            List<Integer> sub = new ArrayList<>();
-            for(Integer mk : map.keySet()){
-                List<Integer> e = map.get(mk);
-                Collections.sort(e);
-                sub.addAll(e);
-            }
-            res.add(sub);
+        for(TreeMap<Integer,PriorityQueue<Integer>> tm:mp.values()){
+            ans.add(new ArrayList<>());
+            for(PriorityQueue<Integer> pq : tm.values())
+                while(!pq.isEmpty()){
+                    ans.get(ans.size()-1).add(pq.poll());
+                }
         }
-        return res;
+        
+        return ans;
+        
     }
-    
-     private void solve(Map<Integer, Map<Integer,List<Integer>>> store, TreeNode root, int level, int hLevel){
-        if(root == null) return;
+    private void dfs(TreeNode root, int x, int y){
+        if(root == null)
+            return;
+        if(!mp.containsKey(y))
+            mp.put(y,new TreeMap<>());
         
-        //Get the inner map from the outer map using vertical level
+        if(!mp.get(y).containsKey(x)){
+            mp.get(y).put(x,new PriorityQueue<>());
+        }
         
-        Map<Integer, List<Integer>> map = (store.containsKey(level))? store.get(level) : new TreeMap<>();
+        mp.get(y).get(x).offer(root.val);
         
-        //Get the list of nodes from the inner map using horizontal level
-        List<Integer> value = (map.containsKey(hLevel)) ? map.get(hLevel) : new ArrayList<>();
-        
-        //Add node in the list of nodes and updates the list in the inner map and then
-        // update the inner map in the outer map
-        value.add(root.val);
-        map.put(hLevel,value);
-        store.put(level, map);
-        
-        
-        //Call for level and right subtrees
-        solve(store, root.left, level - 1, hLevel + 1);
-        solve(store, root.right,level + 1, hLevel + 1);
+        dfs(root.left,x+1,y-1);
+        dfs(root.right,x+1,y+1);
     }
 }
