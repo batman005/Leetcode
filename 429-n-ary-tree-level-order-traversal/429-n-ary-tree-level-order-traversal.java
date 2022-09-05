@@ -19,21 +19,32 @@ class Node {
 
 class Solution {
     public List<List<Integer>> levelOrder(Node root) {
-      List<List<Integer>> res = new ArrayList<>();
-        dfs(root,0,res);
-        return res;
-    }
+        
+        List<List<Integer>> output = new ArrayList<>();
+        Queue<Node> queue = new LinkedList<>();
+        
+        if(root == null) return output;
+        queue.add(root);
+        
+        while(!queue.isEmpty()){
+            
+            // stores the number of values in current row (we alter amount in queue later)
+            int rowLen = queue.size();
+            List<Integer> currRow = new ArrayList<>();
+            for(int i = 0; i < rowLen; i++){
+                
+                // Add current value into row list values.
+                Node curr = queue.poll();
+                currRow.add(curr.val);
     
-    
-    private void dfs(Node root, int level, List<List<Integer>> res){
-        if(root == null) return;
-        
-        if(level >= res.size())
-            res.add(new ArrayList<>());
-        
-        res.get(level).add(root.val);
-        
-        for(Node n: root.children)
-            dfs(n, level + 1, res);
+                // Add Children of current node into queue.
+                int numChildren = curr.children.size();
+                for(int c = 0; c < numChildren; c++) { 
+                    if(curr.children.get(c) != null) queue.add(curr.children.get(c));
+                }
+            }
+            output.add(currRow);
+        }
+        return output;
     }
 }
