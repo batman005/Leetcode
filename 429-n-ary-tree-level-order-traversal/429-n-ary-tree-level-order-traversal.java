@@ -18,33 +18,21 @@ class Node {
 */
 
 class Solution {
+
     public List<List<Integer>> levelOrder(Node root) {
-        
-        List<List<Integer>> output = new ArrayList<>();
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) return res;
         Queue<Node> queue = new LinkedList<>();
-        
-        if(root == null) return output;
-        queue.add(root);
-        
-        while(!queue.isEmpty()){
-            
-            // stores the number of values in current row (we alter amount in queue later)
-            int rowLen = queue.size();
-            List<Integer> currRow = new ArrayList<>();
-            for(int i = 0; i < rowLen; i++){
-                
-                // Add current value into row list values.
-                Node curr = queue.poll();
-                currRow.add(curr.val);
-    
-                // Add Children of current node into queue.
-                int numChildren = curr.children.size();
-                for(int c = 0; c < numChildren; c++) { 
-                    if(curr.children.get(c) != null) queue.add(curr.children.get(c));
-                }
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                list.add(queue.peek().val);
+                queue.addAll(queue.poll().children);
             }
-            output.add(currRow);
+            res.add(list);
         }
-        return output;
+        return res;
     }
 }
