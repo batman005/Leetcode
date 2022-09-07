@@ -14,31 +14,27 @@
  * }
  */
 class Solution {
-    String ans = "";
-
-    public String tree2str(TreeNode root) {
-        pass(root);
-        return ans;
-    }
-
-    public void pass(TreeNode root) {
-        if (root.left == null && root.right == null) {
-            ans += root.val;
+    StringBuilder sb;
+    private void doEv(TreeNode root){
+        if(root == null)return;
+        if(root.left == null && root.right==null){
+            sb.append(root.val);
             return;
         }
-        ans += root.val;
-        if (root.left != null) {
-            ans += "(";
-            pass(root.left);
-            ans += ")";
+        sb.append(root.val);
+        sb.append('(');
+        doEv(root.left);
+        sb.append(')');
+        if(root.right!=null){
+        sb.append('(');
+        doEv(root.right);
+        sb.append(')');
         }
-        if (root.left == null && root.right != null) {
-            ans += "()";
-        }
-        if (root.right != null) {
-            ans += "(";
-            pass(root.right);
-            ans += ")";
-        }
+        return;
+    }
+    public String tree2str(TreeNode t) {
+        sb = new StringBuilder();
+        doEv(t);
+        return sb.toString();
     }
 }
