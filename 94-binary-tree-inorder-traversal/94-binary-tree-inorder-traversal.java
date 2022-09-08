@@ -13,22 +13,23 @@
  *     }
  * }
  */
+
 class Solution {
+
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> ans = new ArrayList<>();
-        ArrayDeque<TreeNode> stack =new ArrayDeque<>();
-        
+        ArrayDeque<TreeNode> stack = new ArrayDeque<>();
+
         TreeNode cur = root;
-        while(cur != null || !stack.isEmpty()){
-            while(cur != null){
-                       stack.push(cur);
+        while (cur != null || !stack.isEmpty()) {
+            while (cur != null) {
+                stack.push(cur);
                 cur = cur.left;
             }
             TreeNode pop = stack.pop();
             ans.add(pop.val);
-            
+
             cur = pop.right;
-     
         }
         return ans;
     }
