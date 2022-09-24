@@ -32,7 +32,7 @@ class Solution {
         if(root.left == null && root.right == null && targetSum - root.val == 0){
             currPath.add(root.val);
             allPaths.add(new ArrayList<>(currPath));
-            currPath.remove(currPath.size() - 1);
+            currPath.remove(currPath.size() - 1); //baccktrack
             return;
         }
         
@@ -41,6 +41,6 @@ class Solution {
         pathSum(root.left, targetSum - root.val,currPath,allPaths);
         pathSum(root.right, targetSum - root.val, currPath, allPaths);
         
-        currPath.remove(currPath.size() - 1);
+        currPath.remove(currPath.size() - 1); //backtrack
     }
 }
