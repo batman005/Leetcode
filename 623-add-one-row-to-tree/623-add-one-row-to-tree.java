@@ -15,23 +15,33 @@
  */
 class Solution {
     public TreeNode addOneRow(TreeNode root, int val, int depth) {
-        //DFS
-        if(root == null)
-            return null;
-        else if(depth == 1) return new TreeNode(val,root,null);
+        //BFS
+        if(depth == 1 ) return new TreeNode (val, root, null);
         
-        else if(depth == 2)
-        {
-            root.left = new TreeNode(val, root.left, null);
+        Queue <TreeNode> queue = new LinkedList<>();
+        
+        queue.add(root);
+        
+        while(depth != 2){
+            int size = queue.size();
             
-            root.right = new TreeNode(val, null, root.right);
+            for(int i = 0; i < size; i++){
+                TreeNode n = queue.poll();
+                
+                if(n.left != null) queue.add(n.left);
+                if(n.right != null) queue.add(n.right);
+                
+            }
             
-            return root;
+            depth--;
         }
         
-        addOneRow(root.left, val, depth - 1);
-        addOneRow(root.right, val, depth - 1);
-        
+        while(!queue.isEmpty()){
+            TreeNode n  = queue.poll();
+            
+            n.left = new TreeNode(val, n.left, null);
+            n.right = new TreeNode(val, null, n.right);
+        }
         return root;
     }
 }
