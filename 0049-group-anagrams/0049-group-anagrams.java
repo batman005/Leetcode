@@ -1,20 +1,22 @@
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
-	//Map to store all the strings
-       Map<String,List<String>> map = new HashMap<>();
+         if(strs == null || strs.length == 0) return new ArrayList<>();
+        Map<String, List<String>> map = new HashMap<>();
         for(String s: strs){
-		 //sorting the string
-            char[] charArray = s.toCharArray();
-            Arrays.sort(charArray);
-            String sorted = new String(charArray);
-            
-			//putting sorted char which are not present in the group
-            if(!map.containsKey(sorted)){
-                map.put(sorted, new LinkedList<String>());
-            }
-			//adding it to the bucket of string which are anagrams
-            map.get(sorted).add(s);
+            String key = buildKey(s);
+            List<String> list = map.getOrDefault(key,new ArrayList<>());
+            list.add(s);
+            map.put(key, list);
         }
-        return new LinkedList<>(map.values());
+        return new ArrayList<>(map.values());
+    }
+    
+    private String buildKey(String s){
+        char[] keyChar = new char[26];
+        for(char c: s.toCharArray()){
+            keyChar[c - 'a']++;
+        }
+        
+        return new String(keyChar);
     }
 }
