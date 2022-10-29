@@ -1,4 +1,7 @@
 class Solution {
+    
+    //TC: O(nlogn)
+    //SC: O(n)
     public int earliestFullBloom(int[] plantTime, int[] growTime) {
         //Created a list to store all the plants
         List<Seed> plant = new ArrayList<>();
@@ -24,6 +27,7 @@ class Solution {
         int plantTime;
         int growTime;
         
+        //Constructor
         public Seed(int p, int g){
             this.plantTime = p;
             this.growTime = g;
