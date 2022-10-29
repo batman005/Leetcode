@@ -1,5 +1,6 @@
 class Solution {
     public int earliestFullBloom(int[] plantTime, int[] growTime) {
+        //Created a list to store all the plants
         List<Seed> plant = new ArrayList<>();
         for(int i= 0; i < plantTime.length;i++){
             plant.add(new Seed(plantTime[i],growTime[i]));
@@ -18,6 +19,7 @@ class Solution {
         return max;
     }
     
+    //Created a private class for seed
     private class Seed{
         int plantTime;
         int growTime;
