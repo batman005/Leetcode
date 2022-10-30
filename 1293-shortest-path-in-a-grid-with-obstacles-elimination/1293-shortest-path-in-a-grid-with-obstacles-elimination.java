@@ -1,5 +1,5 @@
 class Solution {
-    private int[][] dir = new int[][]{{0,1},{0,-1},{-1,0},{1,0}};
+    private int[][] dir = new int[][]{{1,0},{-1,0},{0,1},{0,-1}};
     
     public int shortestPath(int[][] grid, int k) {
         int m = grid.length;
