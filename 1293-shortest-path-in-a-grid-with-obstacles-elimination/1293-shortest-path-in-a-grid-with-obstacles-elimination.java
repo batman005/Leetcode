@@ -1,4 +1,5 @@
 class Solution {
+    //BFS approach
     private int[][] dir = new int[][]{{1,0},{-1,0},{0,1},{0,-1}};
     
     public int shortestPath(int[][] grid, int k) {
@@ -21,6 +22,7 @@ class Solution {
             int size = queue.size();
             while(size --> 0){
                 int[] head = queue.poll();
+                //reached bottom
                 if(head[0] == m - 1 && head[1] == n - 1){
                     return level - 1;
                 }
