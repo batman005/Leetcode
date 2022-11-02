@@ -1,31 +1,31 @@
 class Solution {
-    public int minMutation(String start, String end, String[] bank) {
-        Queue<String> queue = new LinkedList<>();
-        Set<String> seen = new HashSet<>();
-        queue.add(start);
-        seen.add(start);
-        
-        int steps = 0;
-        
-        while(!queue.isEmpty()){
-            int nodesInQueue = queue.size();
-            for(int j = 0; j < nodesInQueue; j++){
-                String node = queue.remove();
-                if(node.equals(end)){
-                    return steps;
-                }
-                for(char c: new char[] {'A', 'C', 'G','T'}){
-                    for(int i = 0; i < node.length(); i++){
-                        String neighbor = node.substring(0, i) + c + node.substring(i + 1);
-                        if(!seen.contains(neighbor) && Arrays.asList(bank).contains(neighbor)){
-                            queue.add(neighbor);
-                            seen.add(neighbor);
-                        }
-                    }
-                }
+    private int mutateDistance(String a , String b)
+    {
+        int res=0;
+        for(int i=0; i<a.length(); i++) if(a.charAt(i)!=b.charAt(i)) res++;
+        return res;
+    }
+    
+   private int mutate(String start, String end, String[] bank) {
+        if(start.equals(end)) return 0;
+        int res=Integer.MAX_VALUE;
+        for(int i=0; i<bank.length; i++)
+        {
+            if(mutateDistance(start, bank[i])==1)
+            {
+                String d=bank[i];
+                bank[i]="XXXXXXXX";
+                res=Math.min(res, mutate(d, end, bank));
+                bank[i]=d;
             }
-            steps++;
         }
-        return -1;
+        if(res==Integer.MAX_VALUE) return res;
+        return res+1;
+    }
+    
+    public int minMutation(String start, String end, String[] bank) {
+        int res=mutate(start, end, bank);
+        if(res==Integer.MAX_VALUE) return -1;
+        return res;
     }
 }
