@@ -4,7 +4,8 @@ class Solution {
         
         for(int k : arr)
             map.put(k, map.getOrDefault(k,0) + 1);
-        
-        return map.size() == map.values().stream().distinct().count();
+      Set<Integer> set = new HashSet(map.values());
+        return map.size() == set.size();
+      
     }
 }
