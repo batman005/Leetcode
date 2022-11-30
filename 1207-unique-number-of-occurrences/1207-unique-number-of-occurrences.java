@@ -1,18 +1,9 @@
 class Solution {
 
-    public boolean uniqueOccurrences(int[] arr) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        HashSet<Integer> hs = new HashSet<>();
-
-        for (int val : arr) {
-            map.put(val, map.getOrDefault(val, 0) + 1);
-        }
-
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            int v = entry.getValue();
-            if (hs.contains(v)) return false;
-            hs.add(v);
-        }
-        return true;
+    public boolean uniqueOccurrences(int[] a) {
+        Map<Integer, Integer> map = new HashMap();
+        for (int x : a) map.put(x, map.getOrDefault(x, 0) + 1);
+        Set<Integer> set = new HashSet(map.values());
+        return map.size() == set.size();
     }
 }
