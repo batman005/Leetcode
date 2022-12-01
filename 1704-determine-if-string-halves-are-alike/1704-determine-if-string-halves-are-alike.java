@@ -1,26 +1,20 @@
 class Solution {
     public boolean halvesAreAlike(String s) {
-        String str = s.toLowerCase();
-        int half1 = 0;
-        int half2 = 0;
-        if(str.length() == 0)
-        {
-            return true;
+       String s1 = s.substring(0, s.length()/2), s2 = s.substring(s.length()/2);
+        
+        int count1 = 0, count2 = 0;
+        
+        for(int i = 0; i < s1.length(); i++){
+            char ch1 = s1.charAt(i);
+            char ch2 = s2.charAt(i);
+            
+            if(ch1 == 'a' || ch1 == 'e' || ch1 == 'i' || ch1 == 'o' || ch1 == 'u' || ch1 == 'A' ||
+               ch1 == 'E' || ch1 == 'I' || ch1 == 'O' || ch1 == 'U') count1++;
+                        
+            if(ch2 == 'a' || ch2=='e' || ch2 == 'i' || ch2 == 'o' || ch2 == 'u' || ch2 == 'A' ||
+               ch2 == 'E' || ch2 == 'I' || ch2 == 'O' || ch2 == 'U') count2++;
+            
         }
-        for(int i = 0; i < str.length()/2;i++)
-        {
-            if(str.charAt(i) == 'a' || str.charAt(i) == 'e' || str.charAt(i) == 'i' || str.charAt(i) == 'o' || str.charAt(i) == 'u')
-            {
-                half1++;
-            }
-        }
-        for(int i = str.length()/2; i < str.length();i++)
-        {
-            if(str.charAt(i) == 'a' || str.charAt(i) == 'e' || str.charAt(i) == 'i' || str.charAt(i) == 'o' || str.charAt(i) == 'u')
-            {
-                half2++;
-            }
-        }
-        return half1 == half2;
+        return count1 == count2;
     }
 }
