@@ -1,4 +1,6 @@
 class Solution {
+    //TC: O(n)
+    //SC: O(1)
     public int minimumAverageDifference(int[] nums) {
         int n = nums.length;
         int ans = -1;
