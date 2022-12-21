@@ -1,4 +1,5 @@
 class Solution {
+    //bfs
     private boolean bfs(int source, Map<Integer, List<Integer>> adj, int[]color){
         Queue<Integer> q = new LinkedList<>();
         q.offer(source);
