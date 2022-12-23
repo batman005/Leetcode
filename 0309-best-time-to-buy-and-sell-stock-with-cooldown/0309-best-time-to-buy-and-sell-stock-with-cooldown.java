@@ -5,9 +5,10 @@ class Solution {
         int[] profit = new int[len];
         int[] buy = new int[len];
         
-        buy[0] = -prices[0];
-        buy[1] = -Math.min(prices[0], prices[1]);
+        buy[0] = 0 -prices[0];
+        buy[1] = 0 - Math.min(prices[0], prices[1]);
         
+        //buying thing will be in negative
         profit[1] = Math.max(0, buy[0] + prices[1]);
         
         for(int i =  2; i < len; i++){
