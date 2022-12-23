@@ -14,6 +14,7 @@ class Solution {
         for(int i =  2; i < len; i++){
             buy[i] = Math.max(buy[i - 1],profit[i - 2] - prices[i]);
             profit[i] = Math.max(profit[i - 1], buy[i - 1] + prices[i]);
+            //profit = SP - CP
         }
         return profit[len - 1];
     }
