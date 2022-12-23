@@ -1,30 +1,19 @@
 class Solution {
     public int maxProfit(int[] prices) {
-         int n = prices.length;
-    int cur[] = new int[2];
-    int front1[] = new int[2];
-    int front2[] = new int[2];
-    
-    for(int ind = n-1; ind>=0; ind--){
-        for(int buy=0; buy<=1; buy++){
-            int profit=0;
-            
-            if(buy==0){// We can buy the stock
-                profit = Math.max(0+front1[0], -prices[ind] + front1[1]);
-            }
-    
-            if(buy==1){// We can sell the stock
-                profit = Math.max(0+front1[1], prices[ind] + front2[0]);
-            }
-            
-            cur[buy] = profit;
+        int len = prices.length;
+        if(len < 2) return 0;
+        int[] profit = new int[len];
+        int[] buy = new int[len];
+        
+        buy[0] = -prices[0];
+        buy[1] = -Math.min(prices[0], prices[1]);
+        
+        profit[1] = Math.max(0, buy[0] + prices[1]);
+        
+        for(int i =  2; i < len; i++){
+            buy[i] = Math.max(buy[i - 1],profit[i - 2] - prices[i]);
+            profit[i] = Math.max(profit[i - 1], buy[i - 1] + prices[i]);
         }
-        
-        front2 = (int[])(front1.clone());
-        front1 = (int [])(cur.clone());
-        
-    }
-    
-    return cur[0];
+        return profit[len - 1];
     }
 }
