@@ -4,9 +4,13 @@ class Solution {
         
         int n = costs.length;
         int icecream = 0;
-        while(icecream < n && costs[icecream] <= coins){
-            coins -= costs[icecream];
-            icecream += 1;
+        int sum = 0;
+         
+        for(int i = 0; i <  n; i++){
+            sum += costs[i];
+            icecream++;
+            if(sum == coins) return icecream;
+            if(sum > coins) return icecream-1;
         }
         return icecream;
     }
