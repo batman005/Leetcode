@@ -1,37 +1,33 @@
 class SummaryRanges {
-    private TreeMap<Integer, Integer> intervals;
-
+    TreeMap<Integer, int[]> map;
+    /** Initialize your data structure here. */
     public SummaryRanges() {
-        intervals = new TreeMap<>(); 
+        map = new TreeMap<>();
     }
     
     public void addNum(int value) {
-        final Map.Entry<Integer, Integer> smallEntry = intervals.floorEntry(value); 
-        int left = value, right = value;
-        if (smallEntry != null) {
-            final int previous = smallEntry.getValue();
-            if (previous >= value) {
-                return;
-            }
-            if (previous == value - 1) {
-                left = smallEntry.getKey();
-            }
+        if (map.containsKey(value)) return;
+        Integer l = map.lowerKey(value);
+        Integer h = map.higherKey(value);
+        if (l != null && h != null && map.get(l)[1] + 1 == value && h == value + 1) {
+            map.get(l)[1] = map.get(h)[1];
+            map.remove(h);
+        } else if (l != null && map.get(l)[1] + 1 >= value) {
+            map.get(l)[1] = Math.max(map.get(l)[1], value);
+        } else if (h != null && h == value + 1) {
+            map.put(value, new int[] {value, map.get(h)[1]});
+            map.remove(h);
+        } else {
+            map.put(value, new int[] {value, value});
         }
-        final Map.Entry<Integer, Integer> maxEntry = intervals.higherEntry(value); 
-        if (maxEntry != null && maxEntry.getKey() == value + 1) {
-            right = maxEntry.getValue();
-            intervals.remove(value + 1);
-        }
-        intervals.put(left, right);
     }
     
     public int[][] getIntervals() {
-        final int[][] answer = new int[intervals.size()][2];
-        int ind = 0;
-        for (Map.Entry<Integer, Integer> entry : intervals.entrySet()) {
-            answer[ind][0] = entry.getKey();
-            answer[ind++][1] = entry.getValue();
+        int[][] res = new int[map.size()][2];
+        int i = 0;
+        for (int[] interval : map.values()) {
+            res[i++] = interval;
         }
-        return answer; 
+        return res;
     }
 }
