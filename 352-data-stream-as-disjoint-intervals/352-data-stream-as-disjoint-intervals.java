@@ -1,39 +1,37 @@
 class SummaryRanges {
-    private Set<Integer> values;
-    
-    
+    private TreeMap<Integer, Integer> intervals;
+
     public SummaryRanges() {
-        values = new TreeSet<>();
+        intervals = new TreeMap<>(); 
     }
     
     public void addNum(int value) {
-        values.add(value);
+        final Map.Entry<Integer, Integer> smallEntry = intervals.floorEntry(value); 
+        int left = value, right = value;
+        if (smallEntry != null) {
+            final int previous = smallEntry.getValue();
+            if (previous >= value) {
+                return;
+            }
+            if (previous == value - 1) {
+                left = smallEntry.getKey();
+            }
+        }
+        final Map.Entry<Integer, Integer> maxEntry = intervals.higherEntry(value); 
+        if (maxEntry != null && maxEntry.getKey() == value + 1) {
+            right = maxEntry.getValue();
+            intervals.remove(value + 1);
+        }
+        intervals.put(left, right);
     }
     
     public int[][] getIntervals() {
-        if(values.isEmpty()){
-            return new int[0][2];
+        final int[][] answer = new int[intervals.size()][2];
+        int ind = 0;
+        for (Map.Entry<Integer, Integer> entry : intervals.entrySet()) {
+            answer[ind][0] = entry.getKey();
+            answer[ind++][1] = entry.getValue();
         }
-        List<int[]> intervals = new ArrayList<>();
-        int left = -1, right = -1;
-        for(Integer value: values){
-            if(left < 0){
-                left = right = value;
-            } else if(value == right + 1){
-                right = value;
-            } else {
-                intervals.add(new int[]{left, right});
-                left = right = value;
-            }
-        }
-        intervals.add(new int[]{left, right});
-        return intervals.toArray(new int[0][]);
+        return answer; 
     }
 }
-
-/**
- * Your SummaryRanges object will be instantiated and called as such:
- * SummaryRanges obj = new SummaryRanges();
- * obj.addNum(value);
- * int[][] param_2 = obj.getIntervals();
- */
