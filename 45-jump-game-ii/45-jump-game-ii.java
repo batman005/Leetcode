@@ -1,16 +1,20 @@
 class Solution {
-    //2 pointer
+
+    // TC : O(n)
+    // SC : O(1)
     public int jump(int[] nums) {
-       int cnt = 0, low = 0, high = 0, n = nums.length;
-        while(high < n  - 1){
-            int maxJump = 0;
-            for(int i = low; i <= high; i++)
-                maxJump = Math.max(maxJump, i + nums[i]);
-            
-            low  = high + 1;
-            high = maxJump;
-            cnt++;
+        int level =0;
+        int divider = 0;
+        int maxReachableIndex = 0;
+        for(int i=0;i<nums.length;i++){
+            if(i> divider){
+                level++;
+                divider = maxReachableIndex;
+            }
+            maxReachableIndex = Math.max(maxReachableIndex, i +nums[i]);
         }
-        return cnt;
+
+        return level;
     }
+
 }
