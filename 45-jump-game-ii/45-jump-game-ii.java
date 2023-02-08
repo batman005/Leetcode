@@ -1,17 +1,16 @@
 class Solution {
+    //2 pointer
     public int jump(int[] nums) {
-        int answer = 0, n = nums.length;
-        int curEnd = 0, curFar = 0;
-        
-        for(int i = 0; i < n - 1; ++i){
-            curFar = Math.max(curFar, i + nums[i]);
+       int cnt = 0, low = 0, high = 0, n = nums.length;
+        while(high < n  - 1){
+            int maxJump = 0;
+            for(int i = low; i <= high; i++)
+                maxJump = Math.max(maxJump, i + nums[i]);
             
-            
-            if(i == curEnd){
-                answer++;
-                curEnd = curFar;
-            }
+            low  = high + 1;
+            high = maxJump;
+            cnt++;
         }
-        return answer;
+        return cnt;
     }
 }
