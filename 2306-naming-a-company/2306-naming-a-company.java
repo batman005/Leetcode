@@ -3,18 +3,23 @@ class Solution {
      HashSet<Integer>[] count = new HashSet[26];
         for(int i = 0; i < 26; ++i)
             count[i] = new HashSet<>();
-        for(String s : ideas)
-            count[s.charAt(0) - 'a'].add(s.substring(1).hashCode());
+        for(String idea : ideas){
+             char initial = idea.charAt(0);
+            count[initial- 'a'].add(idea.substring(1).hashCode());
+        }
+
         long res = 0;
-        for(int i = 0; i < 26; ++i)
-            for(int j = i + 1; j < 26; ++j){
-                long c1 = 0, c2 = 0;
-                for(int c : count[i])
-                    if(!count[j].contains(c)) c1++;
-                for(int c: count[j])
-                    if(!count[i].contains(c)) c2++;
-                res += c1 * c2;
+        for(int i = 0; i < 26; ++i){
+            for(int j = i + 1; j < 26; j++){
+                int commonSuffixes = 0;
+                for(int ideaSuffix: count[i]){
+                    if(count[j].contains(ideaSuffix)){
+                        commonSuffixes++;
+                    }
+                }
+                res+=(count[i].size() - commonSuffixes) * (count[j].size() - commonSuffixes);
             }
+        }
         return res * 2;
     }
 }
