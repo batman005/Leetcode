@@ -1,66 +1,45 @@
 class Solution {
     public int[] shortestAlternatingPaths(int n, int[][] redEdges, int[][] blueEdges) {
-          int[][] g = new int[n][n];
-        buildGraph(g,n, redEdges, blueEdges);
+        Map<Integer, List<List<Integer>>> adj = new HashMap<>();
+        for (int[] redEdge : redEdges) {
+            adj.computeIfAbsent(redEdge[0], k -> new ArrayList<List<Integer>>()).add(
+                    Arrays.asList(redEdge[1], 0));
+        }
 
+        for (int[] blueEdge : blueEdges) {
+            adj.computeIfAbsent(blueEdge[0], k -> new ArrayList<List<Integer>>()).add(
+                    Arrays.asList(blueEdge[1], 1));
+        }
+
+        int[] answer = new int[n];
+        Arrays.fill(answer, -1);
+        boolean[][] visit = new boolean[n][2];
         Queue<int[]> q = new LinkedList<>();
-        q.offer(new int[]{0, 1});
-        q.offer(new int[]{0, -1});
-        int len = 0;
-        int[] res = new int[n];
-        Arrays.fill(res, Integer.MAX_VALUE);
-        res[0] = 0;
 
-        Set<String> visited = new HashSet<>();
+        // Start with node 0, with number of steps as 0 and undefined color -1.
+        q.offer(new int[] { 0, 0, -1 });
+        answer[0] = 0;
+        visit[0][1] = visit[0][0] = true;
+
         while (!q.isEmpty()) {
-            int size = q.size();
-            len++;
-            for (int i = 0; i < size; i++) {
-                int[] cur = q.poll();
-                int node = cur[0];
-                int color = cur[1];
-                int oppoColor = -color;
+            int[] element = q.poll();
+            int node = element[0], steps = element[1], prevColor = element[2];
 
-                for (int j = 1; j < n; j++) {
-                    if (g[node][j] == oppoColor ||
-                       g[node][j] == 0) {
-                        if (!visited.add(j + "" + oppoColor)) continue;
-                        q.offer(new int[]{j, oppoColor});
-                        res[j] = Math.min(res[j], len);
-                    }
+            if (!adj.containsKey(node)) {
+                continue;
+            }
+
+            for (List<Integer> nei : adj.get(node)) {
+                int neighbor = nei.get(0);
+                int color = nei.get(1);
+                if (!visit[neighbor][color] && color != prevColor) {
+                    if (answer[neighbor] == -1)
+                        answer[neighbor] = 1 + steps;
+                    visit[neighbor][color] = true;
+                    q.offer(new int[] { neighbor, 1 + steps, color });
                 }
             }
         }
-
-        for (int i = 1; i < n; i++) {
-            if (res[i] == Integer.MAX_VALUE) {
-                res[i] = -1;
-            }
-        }
-
-        return res;
-    }
-    
-    
-    private void buildGraph(int[][] g, int n, int[][] redEdges, int[][] blueEdges){
-        for(int i = 0; i < n; i++){
-            Arrays.fill(g[i], -n);
-        }
-        
-        for(int[] e: redEdges){
-            int from = e[0];
-            int to = e[1];
-            g[from][to] = 1;
-        }
-        
-        for(int[] e: blueEdges){
-            int from = e[0];
-            int to = e[1];
-            if(g[from][to] == 1){
-                g[from][to] = 0;
-            } else {
-                g[from][to] = -1;
-            }
-        }
+        return answer;
     }
 }
