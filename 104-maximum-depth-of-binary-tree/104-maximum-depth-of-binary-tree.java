@@ -14,25 +14,12 @@
  * }
  */
 class Solution {
-    
     public int maxDepth(TreeNode root) {
-        
-//LevelOrderTraversal
         if(root == null) return 0;
-        Queue<TreeNode> q = new LinkedList<>();
-        q.add(root);
-        int ans = 0;
         
-        while(!q.isEmpty()){
-            ans++;
-            int n = q.size();
-            for(int i = 0; i < n; i++){
-         TreeNode x  = q.remove();
-                if(x.left!= null) q.offer(x.left);
-                 if(x.right!= null) 
-                q.offer(x.right);
-            }
-        }
-        return ans;
+        int left = maxDepth(root.left);
+        int right = maxDepth(root.right);
+        
+        return Math.max(left, right) + 1;
     }
 }
