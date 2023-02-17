@@ -15,6 +15,7 @@
  */
 class Solution {
     int minDistance = Integer.MAX_VALUE;
+      // Initially, it will be null.
     TreeNode prevValue;
     
     void inorderTraversal(TreeNode root){
@@ -23,7 +24,7 @@ class Solution {
         }
         
         inorderTraversal(root.left);
-        
+            // Find the difference with the previous value if it is there.
         if(prevValue != null){
             minDistance = Math.min(minDistance, root.val - prevValue.val);
         }
