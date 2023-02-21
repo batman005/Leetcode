@@ -15,3 +15,8 @@ class Solution {
         
     }
 }
+
+
+// in order to check for the left half
+// 1 st instance -> even index
+// 2nd instance -> odd index, i need to check on the left if the 1sr instance of that number is there or not
