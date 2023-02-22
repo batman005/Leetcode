@@ -1,42 +1,36 @@
 class Solution {
-    public int shipWithinDays(int[] weights, int days) {
-        int min  = 0;
-        int max  = 0;
-        
-        for(int w: weights){
-            min = Math.max(w,min);
-            max += w;
-        }
-        
-        int retVal = 0;
-        while(min <= max){
-            int mid  = (min + max) / 2;
-            int daysRequired = numberOfDaysNeededWithCapacity(weights,mid);
-            
-            if(daysRequired > days){
-                min  = mid + 1;
-                
-            } else {
-                retVal = mid;
-                max = mid - 1;
+    // Check whether the packages can be shipped in less than "days" days with
+    // "c" capacity.
+    Boolean feasible(int[] weights, int c, int days) {
+        int daysNeeded = 1, currentLoad = 0;
+        for (int weight : weights) {
+            currentLoad += weight;
+            if (currentLoad > c) {
+                daysNeeded++;
+                currentLoad = weight;
             }
-              
         }
-        return retVal;
+
+        return daysNeeded <= days;
     }
-    
-    
-    private int numberOfDaysNeededWithCapacity(int[] weights, int capacity){
-           int daysRequired = 1;
-           int current = 0;
-        
-        for(int w: weights){
-            current += w;
-            if(current > capacity){
-                daysRequired++;
-                current = w;
+
+    public int shipWithinDays(int[] weights, int days) {
+        int totalLoad = 0, maxLoad = 0;
+        for (int weight : weights) {
+            totalLoad += weight;
+            maxLoad = Math.max(maxLoad, weight);
+        }
+
+        int l = maxLoad, r = totalLoad;
+
+        while (l < r) {
+            int mid = (l + r) / 2;
+            if (feasible(weights, mid, days)) {
+                r = mid;
+            } else {
+                l = mid + 1;
             }
         }
-        return daysRequired;
+        return l;
     }
 }
