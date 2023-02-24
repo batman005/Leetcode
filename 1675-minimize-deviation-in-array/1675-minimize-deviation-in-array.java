@@ -14,6 +14,7 @@ class Solution {
         while(temp.size() > 0 && temp.last() % 2 == 0){
             m = temp.last();
             temp.remove(m);
+            // we are performing this for a minor optimization in treeset instead of doing m/2
             temp.add(m /= 2);
             
             md = Math.min(md, temp.last() - temp.first());
