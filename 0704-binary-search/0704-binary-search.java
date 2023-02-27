@@ -6,7 +6,7 @@ class Solution {
         // Under this condition
         while (left <= right) {
             // Get the middle index and the middle value.
-            int mid = left + (right - left) / 2;
+            int mid = left + right  >> 1 ;
             
             // Case 1, return the middle index.
             if (nums[mid] == target) {
