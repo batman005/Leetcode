@@ -2,7 +2,7 @@ class Solution {
     public boolean isPerfectSquare(int num) {
         long left = 1, right = num;
         while (left <= right) {
-            long mid = (left + right) / 2;
+            long mid = left + (right - left )/ 2;
             if (mid * mid == num) return true; // check if mid is perfect square
             if (mid * mid < num) { // mid is small -> go right to increase mid
                 left = mid + 1;
