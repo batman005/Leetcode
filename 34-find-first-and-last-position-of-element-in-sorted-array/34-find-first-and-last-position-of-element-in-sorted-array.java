@@ -1,23 +1,28 @@
 class Solution {
-    public int[] searchRange(int[] nums, int target) {
-		int start = firstGreaterEqual(nums, target);
-		if (start == nums.length || nums[start] != target) {
-			return new int[]{-1, -1};
-		}
-		return new int[]{start, firstGreaterEqual(nums, target + 1) - 1};
+    //binary search in two parts
+	public int[] searchRange(int[] nums, int target) {
+		int res[] = { -1, -1 };
+		if (nums.length == 0)
+			return res;
+		int left = binarySearch(nums, target - 0.5);
+		int right = binarySearch(nums, target + 0.5);
+		if (right - left == 0)
+			return res;
+		res[0] = left;
+		res[1] = right - 1;
+		return res;
 	}
-    
-   private static int firstGreaterEqual(int[] nums, int target) {
-        int low = 0, high = nums.length - 1;
-        int[] ans = new int[]{-1, -1};
-        while(low <= high){
-            int mid = low + (high - low) / 2;
-            if(nums[mid] < target){
-                low = mid + 1;
-            } else {
-                high = mid - 1;
-            }
-        }
-      return low;
-    }
+
+	private int binarySearch(int[] arr, double target) {
+		int left = 0;
+		int right = arr.length - 1;
+		while (left <= right) {
+			int mid = (left + right) / 2;
+			if (arr[mid] > target)
+				right = mid - 1;
+			else if(arr[mid] < target)
+				left = mid + 1;
+		}
+		return left;
+	}
 }
