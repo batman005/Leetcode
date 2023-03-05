@@ -1,33 +1,45 @@
 class Solution {
     public int specialArray(int[] nums) {
-        Arrays.sort(nums);
-        int len = nums.length;
-        // enumerate all possible number i
-        for (int x = 0; x <= nums[len - 1]; x++) {
-            // find the first index that nums[idx] >= i
-            int idx = findFirstGreaterOrEqual(x, nums);
-            if (len - idx == x) {
-                return x;
+		//Optional: sorting:
+		//Arrays.sort(nums);
+        //The least value can be 0 as the numbers are all 0 
+        int start=0;
+        //The maximum value can be the length as all numbers are greater than the 
+        //Length of the array and the value is inclusive
+        int end=nums.length;
+        while(start<=end)
+        {
+            int mid=start+(end-start)/2;
+            int curr=count(nums,mid);
+            //The count of ele >=mid and the mid are equal thus;
+            if(curr==mid)
+            {
+                return mid;
+            }
+            //If the count of >=mid is less than the mid
+            else if(curr<mid)
+            {
+                //decrease it;
+                end=mid-1;
+            }
+            else if(curr>mid)
+            {
+                //Increase it;as the value count>mid and we need to reduce the count of values ">=" the mid
+                start=mid+1;
             }
         }
         return -1;
     }
-
-    private int findFirstGreaterOrEqual(int target, int[] nums) {
-        int left = 0;
-        int right = nums.length - 1;
-        while (left + 1 < right) {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] >= target) {
-                right = mid;
-            } else {
-                left = mid;
+    public static int count(int[]arr,int t)
+    {
+        int c=0;
+        for(int i:arr)
+        {
+            if(i>=t)
+            {
+                c++;
             }
         }
-
-        if (nums[left] >= target) {
-            return left;
-        }
-        return right; // whether right >= target or right > target
+        return c;
     }
 }
