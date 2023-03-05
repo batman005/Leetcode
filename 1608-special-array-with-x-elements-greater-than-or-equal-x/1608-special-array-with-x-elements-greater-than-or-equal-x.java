@@ -1,45 +1,32 @@
 class Solution {
+    /*
+    O(N) Time
+    O(N) Space
+    */
     public int specialArray(int[] nums) {
-		//Optional: sorting:
-		//Arrays.sort(nums);
-        //The least value can be 0 as the numbers are all 0 
-        int start=0;
-        //The maximum value can be the length as all numbers are greater than the 
-        //Length of the array and the value is inclusive
-        int end=nums.length;
-        while(start<=end)
-        {
-            int mid=start+(end-start)/2;
-            int curr=count(nums,mid);
-            //The count of ele >=mid and the mid are equal thus;
-            if(curr==mid)
-            {
-                return mid;
-            }
-            //If the count of >=mid is less than the mid
-            else if(curr<mid)
-            {
-                //decrease it;
-                end=mid-1;
-            }
-            else if(curr>mid)
-            {
-                //Increase it;as the value count>mid and we need to reduce the count of values ">=" the mid
-                start=mid+1;
-            }
+        int numOfElements = nums.length;
+        
+        // Bucket sort Time: O(N), Space: O(N)
+        // Count #occurences for each number within 0 - nums.length
+        // Counts[1] = #occurences of 1
+        // Counts[i] = #occurences of i
+        // ...
+        // while counts[counts.length - 1] store the #occurences for all numbers >= counts.length - 1
+        // numOfElements is the max possible answer, so no need to count #occurences for each number >= numOfElements
+        int[] counts = new int[numOfElements+1];
+        for(int elem : nums) {
+            if(elem >= numOfElements) { counts[numOfElements]++; }
+            else { counts[elem]++; }
         }
+        
+        // Reverse order
+        // Consider the index i as x, and the goal is to find when (res = current number of elements >= x) == x 
+        int res = 0;
+        for(int i = counts.length-1; i > 0; i--) {
+            res += counts[i];
+            if(res == i) { return i; } // res: (number of elements in nums that are >= x)  == i: (x)
+        }
+        
         return -1;
-    }
-    public static int count(int[]arr,int t)
-    {
-        int c=0;
-        for(int i:arr)
-        {
-            if(i>=t)
-            {
-                c++;
-            }
-        }
-        return c;
     }
 }
