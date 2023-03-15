@@ -14,28 +14,26 @@
  * }
  */
 class Solution {
-    public boolean isCompleteTree(TreeNode root) {
-        if(root == null){
+    public int countNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return 1 + countNodes(root.left) + countNodes(root.right);
+    }
+    
+    public boolean dfs(TreeNode node, int index, int n){
+        if(node == null){
             return true;
         }
         
-        boolean nullNodeFound = false;
-        Queue<TreeNode> q = new LinkedList<>();
-        q.offer(root);
-        
-        while(!q.isEmpty()){
-            TreeNode node = q.poll();
-            
-            if(node == null){
-                nullNodeFound = true;
-            } else {
-                if(nullNodeFound){
-                    return false;
-                }
-                q.offer(node.left);
-                q.offer(node.right);
-            }
+        if(index >= n){
+            return false;
         }
-        return true;
+        
+        return dfs(node.left, 2 * index + 1, n) && dfs(node.right, 2 * index + 2, n);
+    }
+    
+     public boolean isCompleteTree(TreeNode root) {
+        return dfs(root, 0, countNodes(root));
     }
 }
