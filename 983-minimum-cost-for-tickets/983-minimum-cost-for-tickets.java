@@ -1,31 +1,18 @@
 class Solution {
-    int[] days, costs;
-    Integer[] memo;
-    int[] durations = new int[]{1, 7, 30};
-    
     public int mincostTickets(int[] days, int[] costs) {
-       this.days = days;
-       this.costs = costs;
-       memo = new Integer[days.length];
-        
-       return dp(0);
-    }
-    
-    public int dp(int i){
-        if(i >= days.length)
-            return 0;
-        if(memo[i] != null)
-            return memo[i];
-        
-        int ans = Integer.MAX_VALUE;
-        int j = i;
-        for(int k = 0; k < 3; ++k){
-            while(j < days.length && days[j] < days[i] + durations[k])
-                      j++;
-            ans = Math.min(ans, dp(j) + costs[k]);
+        int[] dp = new int[365 + 30 + 1];
+        HashSet set = new HashSet<>();
+        for(int i: days)
+            set.add(i);
+        for(int i = 365; i >= 1; i--){
+            if(!set.contains(i)){
+                dp[i] = dp[i + 1];
+                continue;
             }
-        
-        memo[i] = ans;
-        return ans;
+            
+            dp[i] = Math.min(dp[i + 1] + costs[0], dp[i + 7] + costs[1]);
+            dp[i] = Math.min(dp[i] , dp[i + 30] + costs[2]);
+        }
+        return dp[1];
     }
 }
