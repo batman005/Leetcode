@@ -12,12 +12,11 @@ class Solution {
                 boatCount++;
                 left++;
                 right--;
-            }
-            else{
+            } else {
                 boatCount++;
                 right--;
             }
-        }
+        } 
         return boatCount;
     }
 }
