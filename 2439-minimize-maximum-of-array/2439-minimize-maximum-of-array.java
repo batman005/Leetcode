@@ -1,18 +1,30 @@
 class Solution {
     public int minimizeArrayValue(int[] nums) {
-        long sum = nums[0], avg = nums[0];
-        
-        for(int i = 1; i < nums.length; ++i){
-            sum += nums[i];
-            
-            if(nums[i] > avg){
-                long x = sum / (i + 1);
-                if(x >= avg){
-                    if(sum % (i + 1) != 0) avg = x + 1;
-                    else avg = x;
-                }
+        int start = 0, end = (int) 1e9, ans = 0;
+        while( start <= end){
+            int mid = start + (end - start) / 2;
+            if(isPossible(mid , nums)){
+                end = mid - 1;
+                ans = mid;
+            } else {
+                start = mid + 1;
             }
         }
-        return (int) avg;
+        return ans;
+    }
+    
+    private boolean isPossible(int max, int  array[]){
+        long x = 0;
+        for(int i : array){
+            if(i > max){
+                long c = (i - max);
+                if(c > x) return false;
+                x -= c; 
+            } else {
+                x += (max - i);
+            }
+        }
+        
+        return true;
     }
 }
