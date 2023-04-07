@@ -1,37 +1,53 @@
 class Solution {
+    public boolean isValid(int i, int j, int n, int m, int[][] grid) {
+        if (i >= 0 && i < n && j >= 0 && j < m && grid[i][j] == 0) {
+            return true;
+        }
+        return false;
+    }
+    
+    public void dfs(int i, int j, int n, int m, int[][] grid) {
+        grid[i][j] = 1;
+        
+        int[] ax = {1, -1, 0, 0};
+        int[] ay = {0, 0, 1, -1};
+        
+        for (int k = 0; k < 4; k++) {
+            int nx = i + ax[k];
+            int ny = j + ay[k];
+            
+            if (isValid(nx, ny, n, m, grid)) {
+                dfs(nx, ny, n, m, grid);
+            }
+        }
+    }
+    
     public int closedIsland(int[][] grid) {
-        int m = grid.length;
-        int n = grid[0].length;
-        boolean[][] visit = new boolean[m][n];
-        int count = 0;
-        for(int i = 0; i < grid.length; i++){
-            for(int j = 0; j < grid[0].length; j++){
-                if(grid[i][j] == 0 && !visit[i][j] && dfs(i , j , m, n, grid, visit)){
-                    count++;
+        int n = grid.length;
+        int m = grid[0].length;
+        
+        // boundary DFS
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (i*j == 0 || i == n-1 || j == m-1) {
+                    if (grid[i][j] == 0) {
+                        dfs(i, j, n, m, grid);
+                    }
                 }
             }
         }
-        return count;
+        
+        // call DFS in whole grid
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] == 0) {
+                    ans++;
+                    dfs(i, j, n, m, grid);
+                }
+            }
+        }
+        
+        return ans;
     }
-    
-    public boolean dfs(int x, int y, int m, int n, int[][] grid, boolean[][] visit){
-            if(x < 0 || x >= grid.length || y < 0 || y >= grid[0].length){
-                return false;
-            }
-            if(grid[x][y] == 1 || visit[x][y]){
-                return true;
-            }
-        visit[x][y] = true;
-        boolean isClosed = true;
-        int[] dirx = {0, 1, 0, -1};
-        int[] diry = {-1, 0, 1, 0};
-      for (int i = 0; i < 4; i++) {
-            int r = x + dirx[i];
-            int c = y + diry[i];
-            if (!dfs(r, c, m, n, grid, visit)) {
-                isClosed = false;
-            }
-        }
-        return isClosed;
-        }
 }
