@@ -19,16 +19,23 @@ class Node {
 */
 
 class Solution {
-       HashMap <Node,Node> hm = new HashMap<>();
       public Node cloneGraph(Node node) {
-      if(node == null) return null;
-      if(hm.containsKey(node))
-          return hm.get(node);//if already visted return copy
-        Node curr = new Node(node.val); //make copy
-        hm.put(node,curr); //link copy to original 
-        for(Node next: node.neighbors) //DFS cloning
-            curr.neighbors.add(cloneGraph(next));
-        return curr;
-        
+    if (node == null) return null;
+    Map<Node, Node> map = new HashMap<>();      // Maps a node from original graph to the corresponding node in the cloned graph.
+    Deque<Node> queue = new ArrayDeque<>();     // Do a BFS to create a copy of all nodes and create a copy of all edges.
+    map.put(node, new Node(node.val));
+    queue.addLast(node);
+    while (queue.size() > 0) {
+        Node currNode = queue.removeFirst();             
+        // Create edges for currNode in the cloned graph.
+        for (Node currNeighbor : currNode.neighbors) {
+            if (!map.containsKey(currNeighbor)) {
+                map.put(currNeighbor, new Node(currNeighbor.val));         // Create a copy of currNeighbor.
+                queue.addLast(currNeighbor);                               // Add currNeighbor to the queue so that its edges will be added to the cloned graph.
+            }
+            map.get(currNode).neighbors.add(map.get(currNeighbor));       // Create the edge between currNode and the currNeighbor in the cloned graph.
+        }
     }
+    return map.get(node);
+}
 }
