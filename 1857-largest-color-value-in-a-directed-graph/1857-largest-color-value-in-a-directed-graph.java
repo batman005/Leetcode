@@ -1,7 +1,34 @@
 class Solution {
+    private int dfs(int node, String colors, Map<Integer, List<Integer>> adj, int[][] count, boolean[] visit, boolean[] inStack){
+        if(inStack[node]){
+            return Integer.MAX_VALUE;
+        }
+        if(visit[node]){
+            return count[node][colors.charAt(node) - 'a'];
+        }
+        
+        visit[node] = true;
+        inStack[node] = true;
+        
+        if(adj.containsKey(node)){
+            for(int neighbor: adj.get(node)){
+                if(dfs(neighbor, colors, adj, count, visit, inStack) == Integer.MAX_VALUE){
+                    return Integer.MAX_VALUE;
+                }
+                
+                for(int i= 0;  i < 26; i++){
+                    count[node][i] = Math.max(count[node][i], count[neighbor][i]);
+                }
+            }
+        }
+           count[node][colors.charAt(node) - 'a']++;
+        // Remove the node from the stack.
+        inStack[node] = false;
+        return count[node][colors.charAt(node) - 'a'];
+    }
     public int largestPathValue(String colors, int[][] edges) {
-          int n = colors.length();
-          Map<Integer, List<Integer>> adj = new HashMap<>();
+           int n = colors.length();
+           Map<Integer,List<Integer>> adj = new HashMap<>();
           int[] indegree = new int[n];
         
         for(int[] edge: edges){
@@ -10,35 +37,12 @@ class Solution {
         }
         
         int[][] count = new int[n][26];
-        Queue<Integer> q = new LinkedList<>();
-        
+        boolean[] visit = new boolean[n];
+        boolean[] inStack = new boolean[n];
+        int answer = 0;
         for(int i = 0; i < n; i++){
-            if(indegree[i] == 0){
-                q.offer(i);
-            }
+            answer = Math.max(answer, dfs(i, colors, adj, count, visit, inStack));
         }
-        
-        int answer = 1, nodesSeen = 0;
-        while (!q.isEmpty()){
-            int node = q.poll();
-            answer = Math.max(answer, ++count[node][colors.charAt(node) -'a']);
-            nodesSeen++;
-            
-            if(!adj.containsKey(node)){
-                continue;
-            }
-            
-            for(int neighbor: adj.get(node)){
-                for(int i = 0; i < 26; i++){
-                    count[neighbor][i] = Math.max(count[neighbor][i],count[node][i]);
-                }
-                
-                indegree[neighbor]--;
-                if(indegree[neighbor] == 0){
-                    q.offer(neighbor);
-                }
-            }
-        }
-        return nodesSeen < n ? -1 : answer;
+        return answer == Integer.MAX_VALUE ? -1 : answer;
     }
 }
