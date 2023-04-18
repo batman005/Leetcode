@@ -1,5 +1,6 @@
 class Solution {
     public String mergeAlternately(String word1, String word2) {
+        //two pointer
         int m = word1.length();
         int n = word2.length();
         StringBuilder result = new StringBuilder();
