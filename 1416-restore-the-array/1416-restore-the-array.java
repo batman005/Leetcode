@@ -1,28 +1,38 @@
 class Solution {
-    public int numberOfArrays(String s, int k) {
-        int m = s.length(), n = String.valueOf(k).length();
-        int mod = (int)1e9 + 7;
-        
-        int[] dp = new int[n + 1];
-        
-        dp[0] = 1;
-        
-        for(int start = 0; start < m; start++){
-            if(s.charAt(start) == '0'){
-                dp[start % (n + 1)] = 0;
-                continue;
-            }
-            
-            for(int end = start; end < m; ++end){
-                String currNumber = s.substring(start, end + 1);
-                
-                if(Long.parseLong(currNumber) > k)
-                    break;
-                
-                dp[(end + 1) % (n + 1)] = (dp[(end + 1) % (n + 1)] + dp[start % (n + 1)]) % mod;
-            }
-            dp[start % (n + 1)] = 0;
+    int mod = 1_000_000_007;
+
+    // Number of possible splits for substring s[start ~ m-1].
+    private int dfs(int[] dp, int start, String s, int k) {
+        // If we have already updated dp[start], return it.
+        if (dp[start] != 0)
+            return dp[start];
+
+        // There is only 1 split for an empty string.
+        if (start == s.length())
+            return 1;
+
+        // Number can't have leading zeros.
+        if (s.charAt(start) == '0')
+            return 0;
+
+        // For all possible starting number, add the number of arrays 
+        // that can be printed as the remaining string to count.
+        int count = 0;
+        for (int end = start; end < s.length(); ++end) {
+            String currNumber = s.substring(start, end + 1);
+            if (Long.parseLong(currNumber) > k)
+                break;
+            count = (count + dfs(dp, end + 1, s, k)) % mod;
         }
-        return dp[m % (n + 1)];
+
+        // Update dp[start] so we don't recalculate it later.
+        dp[start] = count;
+        return count;
+    }
+    
+    public int numberOfArrays(String s, int k) {
+        int m = s.length();
+        int[] dp = new int[m + 1];
+        return dfs(dp, 0, s, k);
     }
 }
