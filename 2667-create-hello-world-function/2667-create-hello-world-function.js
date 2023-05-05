@@ -1,7 +1,7 @@
 /**
  * @return {Function}
  */
-var createHelloWorld = function() {
+const createHelloWorld = function() {
     return  (...args) => "Hello World";
 };
 
