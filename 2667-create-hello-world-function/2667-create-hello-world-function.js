@@ -1,9 +1,9 @@
 /**
  * @return {Function}
  */
-const createHelloWorld = function() {
-    return  (...args) => "Hello World";
-};
+function createHelloWorld(...args){
+    return () => "Hello World";
+}
 
 /**
  * const f = createHelloWorld();
