@@ -5,9 +5,9 @@
  * @return {number}
  */
 var reduce = function(nums, fn, init) {
-    let accumulator = init;
-    for(const index in nums){
-        accumulator = fn(accumulator, nums[index]);
-    }
-    return accumulator;
+     let res = init;
+     for(const n of nums){
+         res = fn(res, n);
+     }
+    return res;
 };
