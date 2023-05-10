@@ -6,8 +6,8 @@
  */
 var reduce = function(nums, fn, init) {
     let accumulator = init;
-    nums.forEach((element) => {
-        accumulator = fn(accumulator, element);
-    });
-    return accumulator
+    for(const index in nums){
+        accumulator = fn(accumulator, nums[index]);
+    }
+    return accumulator;
 };
