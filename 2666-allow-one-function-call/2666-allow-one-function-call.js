@@ -3,12 +3,13 @@
  * @return {Function}
  */
 var once = function(fn) {
-    let hasBeenCalled = false;
+    let isCalled = false;
     return function(...args){
-        if(!hasBeenCalled){
-            hasBeenCalled = true;
-            return fn.apply(this, args);
+        if(!isCalled){
+            isCalled = true;
+            return fn(...args);
         }
+      
     }
 };
 
