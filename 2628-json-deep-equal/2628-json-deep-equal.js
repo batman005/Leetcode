@@ -3,15 +3,28 @@
  * @param {any} o2
  * @return {boolean}
  */
-function helper(key, value){
-    if(value && typeof value === "object" && !Array.isArray(value))
-      return Object.fromEntries(Object.entries(value).sort());
-    else 
-       return value;
-}
 var areDeeplyEqual = function(o1, o2) {
-    const string1 = JSON.stringify(o1, helper);
-    const string2 = JSON.stringify(o2, helper);
+    if(o1 === o2) return true;
+    if(o1 === null || o2 === null) return false;
+    if(String(o1) !== String(o2)) return false;
     
-    return string1 == string2;
+    if(typeof o1 !== 'object'){
+        return o1 === o2;
+    }
+    
+    if(Array.isArray(o1)){
+        if(o1.length !== o2.length) return false;
+        
+        for(let i = 0; i < o1.length; i++){
+            if(!areDeeplyEqual(o1[i], o2[i])) return false;
+        }
+        
+        return true;
+    }
+        if (Object.keys(o1).length !== Object.keys(o2).length) return false;
+    
+    for(const key in o1){
+        if(!areDeeplyEqual(o1[key], o2[key])) return false;
+    }
+    return true;
 };
