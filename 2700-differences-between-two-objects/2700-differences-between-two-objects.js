@@ -5,16 +5,14 @@
  */
 function objDiff(obj1, obj2) {
     if(!isObject(obj1) && !isObject(obj2)){
-        return obj1 === obj2 ? {} : [obj1, obj2];
+       return obj1 === obj2 ? {} : [obj1, obj2];
     }
-    
     if(!isObject(obj1) || !isObject(obj2)){
-        return[obj1, obj2];
+       return [obj1, obj2];
     }
     if(Array.isArray(obj1) !== Array.isArray(obj2)){
-        return [obj1, obj2];
+       return [obj1, obj2];
     }
-    
     const diff = {};
     for(const key in obj1){
         if(obj2.hasOwnProperty(key)){
