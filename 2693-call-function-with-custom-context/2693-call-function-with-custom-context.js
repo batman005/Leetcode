@@ -3,14 +3,9 @@
  * @param {any[]} args
  * @return {any}
  */
-Function.prototype.callPolyfill = function (context, ...args) {
-  const uniqueSymbol = Symbol();
-  context[uniqueSymbol] = this;
-  const result = context[uniqueSymbol](...args);
-  delete context[uniqueSymbol];
-
-  return result;
-};
+Function.prototype.callPolyfill = function(context, ...args) {
+    return this.bind(context)(...args)
+}
 
 /**
  * function increment() { this.count++; return this.count; }
