@@ -2,14 +2,18 @@
  * @return {Generator<number>}
  */
 var fibGenerator = function*() {
-    let prev1 = 0;
-    let prev2 = 1;
+    let a=0;
+    let b=1;
+    // yield the first two numbers separately
+    yield a;
+    yield b;
 
-    while(true) {
-        yield prev1;
-        const temp = prev1;
-        prev1 = prev2;
-        prev2 += temp;
+    // continue to yield subsequent numbers of the sequence
+    while(true){
+        let c= a+b;
+        yield c;
+        a=b;
+        b=c;
     }
 };
 
