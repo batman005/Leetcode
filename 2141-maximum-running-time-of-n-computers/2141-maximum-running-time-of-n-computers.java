@@ -1,41 +1,21 @@
 class Solution {
-    private boolean canFit(int n, long k , int[] batteries){
-        long currBatSum = 0;
-        long target = n * k;
-        
-        for(int bat: batteries){
-            //if it need to be replace
-            if(bat < k){
-                currBatSum += bat;
-            }
-            else {
-                currBatSum += k;
-            }
-            if(currBatSum >= target){
-                return true;
-            }
-        }
-        return currBatSum >= target;
-    }
     public long maxRunTime(int n, int[] batteries) {
-        long batSum = 0;
-        for(int bat: batteries){
-            batSum += bat;
-        }
-        long lower = 0;
-        long upper = batSum / n;
-        long res = -1;
+        long sumPower = 0;
+        for(int power: batteries)
+            sumPower += power;
+        long left = 1, right = sumPower/ n;
         
-        while(lower <= upper){
-            long mid =  lower + (upper - lower) / 2;
-            if(canFit(n, mid, batteries)){
-                res = mid;
-                lower = mid + 1;
-            } else {
-                upper = mid - 1;
-                
-            }
+        while(left < right){
+            long target = right - (right - left) / 2;
+            long extra = 0;
+            for(int power: batteries)
+                extra += Math.min(power, target);
+            
+            if(extra >= (long)(n * target))
+                left = target;
+            else 
+                right = target - 1;
         }
-        return res;
+        return left;
     }
 }
