@@ -5,3 +5,5 @@ iterate and put it in a map check values getOrDefault
 Second method
 Sort the strings and then compare it
 with each other
+​
+char tempArray[] = inputString.toCharArray(); // it takes O(N) space
