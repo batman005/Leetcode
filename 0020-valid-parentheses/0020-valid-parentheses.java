@@ -1,25 +1,24 @@
 class Solution {
-         public static boolean isValid(String s) {
-            Stack<Character> st = new Stack();
-             
-             for(int i = 0; i < s.length(); i++){
-   if (s.charAt(i) == '{' || s.charAt(i) == '(' || s.charAt(i) == '[') {
-                st.push(s.charAt(i));
+    public boolean isValid(String s) {
+        Stack<Character> brackets = new Stack<>();
+        Map<Character, Character> bracketLookup = new HashMap<>(3);
+        
+        bracketLookup.put(')','(');
+        bracketLookup.put('}','{');
+        bracketLookup.put(']', '[');
+        
+        for(int i= 0; i < s.length(); i++){
+            char c = s.charAt(i);
+            if(bracketLookup.containsKey(c)){
+                if(!brackets.isEmpty() && bracketLookup.get(c).equals(brackets.peek())){
+                    brackets.pop();
+                } else {
+                    return false;
+                }
+            } else {
+                brackets.push(c);
             }
-                 else if(st.empty()){
-                     return false;
-                 }
-                 else if(st.peek() == '{' && s.charAt(i) == '}') {
-                     st.pop();
-                 } else if(st.peek() == '(' && s.charAt(i) == ')'){
-                     st.pop();
-                 } else if(st.peek() == '[' && s.charAt(i) == ']'){
-                     st.pop();
-                 } else {
-                     return false;
-                 }
-             }
-          return st.empty();
-
+        }
+        return brackets.isEmpty();
     }
 }
