@@ -10,21 +10,21 @@ class Solution {
             }
         }
         
-        int msp = 0;
-        int ml = 0;
+        int maxStartPoint = 0;
+        int maxlength = 0;
         for(int val: nums){
             if(map.get(val) == true){
-                int tl = 1;
-                int tsp = val;
-                while(map.containsKey(tsp + tl)){
-                    tl++;
+                int templength = 1;
+                int tempStartPoint = val;
+                while(map.containsKey(tempStartPoint + templength)){
+                    templength++;
                 }
-                if(tl > ml){
-                    msp = tsp;
-                    ml = tl;
+                if(templength > maxlength){
+                    maxStartPoint = tempStartPoint;
+                    maxlength = templength;
                 }
             }
         }
-        return ml;
+        return maxlength;
     }
 }
