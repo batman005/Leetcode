@@ -1,5 +1,6 @@
 class Solution {
     public int trap(int[] height) {
+        //TC:- O(N), SC = O(N)
         int n=height.length;
         int[] left=new int[n];
         int[] right=new int[n];
