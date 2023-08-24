@@ -21,7 +21,7 @@ class Solution {
         
 
         for(int i=0;i<n;i++){
-            sum=sum+Math.min(left[i],right[i])-height[i];
+            sum+=Math.min(left[i],right[i])-height[i];
         }
         
         return sum;
