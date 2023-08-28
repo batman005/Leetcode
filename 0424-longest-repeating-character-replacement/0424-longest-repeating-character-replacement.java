@@ -7,6 +7,7 @@ class Solution {
         for(int j = 0; j < s.length(); j++){
             arr[s.charAt(j) - 'A']++;
             max = Math.max(max,arr[s.charAt(j) - 'A']);
+            //length - maxfrequency if it exceeds k then we will move the left pointer
             if(j - i + 1 - max > k){
                 arr[s.charAt(i)- 'A']--;
                 i++;
