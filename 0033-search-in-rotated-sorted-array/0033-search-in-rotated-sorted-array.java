@@ -2,7 +2,7 @@ class Solution {
     public int search(int[] nums, int target) {
       int low = 0;
       int high = nums.length - 1;
-      while(low < high){
+      while(low <= high){
           int mid = (low + high)/ 2;
           if(nums[mid] == target)
              return mid;
@@ -20,6 +20,10 @@ class Solution {
                   }
               }
       }
-     return nums[low] == target ? low : -1;
+   // Check if low is within bounds before accessing nums[low]
+        if (low < nums.length && nums[low] == target) {
+            return low;
+        }
+        return -1;
     }
 }
