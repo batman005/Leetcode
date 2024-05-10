@@ -5,9 +5,9 @@ class Solution {
         
         for(int i = 0; i < s.length(); i++){
             if(Indicies.containsKey(s.charAt(i))){
-                ans = Math.max(ans, i - Indicies.get(s.charAt(i)) - 1);
+                ans = Math.max(ans, i - Indicies.get(s.charAt(i)));
             } else {
-                Indicies.put(s.charAt(i), i);
+                Indicies.put(s.charAt(i), i + 1);
             }
         }
         return ans;
