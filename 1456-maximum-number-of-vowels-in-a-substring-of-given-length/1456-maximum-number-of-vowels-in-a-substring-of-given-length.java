@@ -11,9 +11,10 @@ class Solution {
         //abciiidef
         //abc
         //bci
+        //iii
         for(int i = k; i < s.length();i++){
             count +=  vowels.contains(s.charAt(i)) ? 1 : 0;
-            count -= vowels.contains(s.charAt(i - k)) ? 1: 0; //a got remove
+            count -= vowels.contains(s.charAt(i - k)) ? 1: 0; //a got remove and 
             answer = Math.max(answer, count);                        
                                      
        }                             
