@@ -1,1 +1,1 @@
-we want to make as many ele as we can equal usign k increments
+​
