@@ -1,20 +1,24 @@
 class Solution {
     public int longestPalindrome(String s) {
-        Set<Character> characterSet = new HashSet<>();
-        int res = 0;
+       Map<Character, Integer> frequencyMap = new HashMap<>();
         
         for(char c: s.toCharArray()){
-            if(characterSet.contains(c)){
-                characterSet.remove(c);
-                
-                res += 2;
-            } else {
-                characterSet.add(c);
-            }
+            frequencyMap.put(c, frequencyMap.getOrDefault(c, 0) + 1);
         }
         
-        if(!characterSet.isEmpty()) res++;
+        int res = 0;
+        boolean hasOddFrequency = false;
+        for(int freq: frequencyMap.values()){
+            if((freq % 2) == 0){
+                res += freq;
+            } else {
+                res += freq - 1;
+                hasOddFrequency = true;
+            }
+        }
+        if(hasOddFrequency) return res + 1;
         
         return res;
+        
     }
 }
