@@ -1,24 +1,21 @@
 class Solution {
     public int minKBitFlips(int[] nums, int k) {
-        int currentFlips = 0;
+        int n = nums.length, ans = 0, times = 0;
+        int[]flipped = new int[n];
         
         
-        int totalFlips = 0;
-        
-        for(int i = 0; i < nums.length; i++){
-            if(i >= k && nums[i - k] == 2){
-                currentFlips--;
+        for(int i = 0; i < n; i++){
+            if(i >= k){
+                times -=flipped[i - k];
             }
             
-            if((currentFlips % 2 ) == nums[i]){
-                if(i + k > nums.length){
-                    return -1;
-                }
-                nums[i] = 2;
-                currentFlips++;
-                totalFlips++;
+            if((nums[i] == 1 && times% 2 == 1) || (nums[i] == 0 && times%2 == 0)){
+                if(i + k > n) return -1;
+                ans++;
+                times++;
+                flipped[i] = 1;
             }
         }
-        return totalFlips;
+        return ans;
     }
 }
