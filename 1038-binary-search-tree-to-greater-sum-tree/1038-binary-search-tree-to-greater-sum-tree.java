@@ -15,40 +15,28 @@
  */
 class Solution {
     public TreeNode bstToGst(TreeNode root) {
-        List<Integer> inorderTraversal = new ArrayList<>();
-        inorder(root, inorderTraversal);
-        
-        Collections.reverse(inorderTraversal);
-        
-        replaceValues(root, inorderTraversal);
-        return root;
-    }
-    
-    private void inorder(TreeNode root, List<Integer> inorderTraversal){
-        if(root  == null){
-            return;
-        }
-        inorder(root.left, inorderTraversal);
-        inorderTraversal.add(root.val);
-        inorder(root.right, inorderTraversal);
-    }
- private void replaceValues(TreeNode root, List<Integer> inorderTraversal) {
-        if (root == null) {
-            return;
-        }
-        replaceValues(root.left, inorderTraversal);
-        replaceValues(root.right, inorderTraversal);
-
         int nodeSum = 0;
-        // Replace node with values greater than the current value.
-        for (int i : inorderTraversal) {
-            if (i > root.val) {
-                nodeSum += i;
-            } else {
-                break;
+        Stack<TreeNode> st = new Stack<>();
+        TreeNode node = root;
+        
+        while(!st.empty() || node != null){
+            while(node != null){
+                st.push(node);
+                node = node.right;
             }
+            
+            //store the top value of stack in node and pop
+            node = st.pop();
+            
+            //Update value of node
+            
+            nodeSum += node.val;
+            node.val = nodeSum;
+            
+            
+            //Move to the left child of node
+            node = node.left;
         }
-
-        root.val += nodeSum;
+        return root;
     }
 }
