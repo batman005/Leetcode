@@ -1,15 +1,16 @@
 class Solution {
     public int minOperations(String[] logs) {
-        int folderDepth = 0;
+        Stack<String> folderStack = new Stack<>();
         
         for(String currentOperation: logs){
             if(currentOperation.equals("../")){
-                folderDepth = Math.max(0, folderDepth - 1);
-            }
-            else if(!currentOperation.equals("./")){
-                folderDepth++;
+                if(!folderStack.empty()){
+                    folderStack.pop();
+                }
+            } else if(!currentOperation.equals("./")){
+                folderStack.push(currentOperation);
             }
         }
-        return folderDepth;
+        return folderStack.size();
     }
 }
